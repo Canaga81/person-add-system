@@ -1,6 +1,6 @@
 import Card from "../UI/Card";
 import Button from "../UI/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ErrorModal from "../UI/ErrorModal";
 
 const AddWorker = ({setWorkers}) => {
@@ -9,6 +9,12 @@ const AddWorker = ({setWorkers}) => {
 
   const [enteredWorkerName, setEnteredWorkerName] = useState("");
   const [enteredWorkerWage, setEnteredWorkerWage] = useState("");
+
+  // useEffect(() => {
+  //   console.log('Calisti');
+  // }, []);
+
+  
 
   const minimumWage = 5000;
 
@@ -21,6 +27,7 @@ const AddWorker = ({setWorkers}) => {
   };
 
   const addWorkerHandler = (e) => {
+
     e.preventDefault();
 
     if(enteredWorkerName.trim().length === 0) {
@@ -59,7 +66,7 @@ const AddWorker = ({setWorkers}) => {
 
   return (
     <>
-      {error && <ErrorModal error={error} errorHandler={errorHandler} />}
+      {error && <ErrorModal setWorkers={setWorkers} error={error} errorHandler={errorHandler} />}
       <Card className="mt-10">
         <form className="flex flex-col gap-y-2" onSubmit={addWorkerHandler}>
           <label htmlFor="name" className="font-medium">

@@ -1,20 +1,46 @@
+import { useEffect, useRef } from "react";
 import Button from "./Button";
 import Card from "./Card";
 
-const ErrorModal = ({error, errorHandler}) => {
+const ErrorModal = ({ error, errorHandler, setWorkers }) => {
+  const { title, message } = error;
+  const cleanupRef = useRef();
+  console.log(cleanupRef.current);
 
-    const {title, message} = error;
+  useEffect(() => {
+    console.log("Modal Olusturuldu !");
+
+    return () => {
+      if (!cleanupRef.current) {
+        console.log("Component Kaldirildi !");
+        setWorkers([]);
+      }
+    };
+  }, [cleanupRef]);
+
+  useEffect(() => {
+    return () => {
+      cleanupRef.current = true;
+    };
+  }, []);
 
   return (
     <div className="fixed top-1/4 left-0 flex justify-center mx-auto w-full z-50">
-        <div onClick={errorHandler} className="backdrop-blur-sm bg-white/30 fixed w-screen h-screen top-0"></div>
+      <div
+        onClick={errorHandler}
+        className="backdrop-blur-sm bg-white/30 fixed w-screen h-screen top-0"
+      ></div>
       <Card className="w-[32rem] p-0 z-20">
         <header className="bg-red-700 p-4 rounded-t-xl">
-          <h2 className="text-white font-medium text-center text-xl">{title}</h2>
+          <h2 className="text-white font-medium text-center text-xl">
+            {title}
+          </h2>
         </header>
         <section className="p-4">{message}</section>
         <footer className="p-4 flex justify-end">
-          <Button className="w-32" onClick={errorHandler}>Tamam</Button>
+          <Button className="w-32" onClick={errorHandler}>
+            Tamam
+          </Button>
         </footer>
       </Card>
     </div>
